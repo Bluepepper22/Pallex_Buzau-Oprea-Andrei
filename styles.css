@@ -241,7 +241,7 @@ a {
 }
 
 /* =========================================================
-   Stats Band & Animație Camion PALL-EX Outline
+   Stats Band & Animație Camion PALL-EX Outline (Dus-Întors)
    ========================================================= */
 .band {
   background-color: var(--bg-dark);
@@ -333,21 +333,21 @@ a {
 }
 
 .pallet-load-1 {
-  animation: loadPalletLeft 11s linear infinite;
+  animation: loadPalletRoundTrip 14s linear infinite;
 }
 
 .pallet-load-2 {
-  animation: loadPalletLeft 11s linear 0.35s infinite;
+  animation: loadPalletRoundTrip 14s linear 0.25s infinite;
 }
 
 .pallet-unload-1 {
   opacity: 0;
-  animation: unloadPalletRight 11s linear infinite;
+  animation: unloadPalletRoundTrip 14s linear infinite;
 }
 
 .pallet-unload-2 {
   opacity: 0;
-  animation: unloadPalletRight 11s linear 0.35s infinite;
+  animation: unloadPalletRoundTrip 14s linear 0.25s infinite;
 }
 
 .pallex-truck-runner {
@@ -355,7 +355,12 @@ a {
   bottom: 11px;
   left: 0;
   z-index: 3;
-  animation: truckDriveLeftToRight 11s linear infinite;
+  animation: truckRoundTripMove 14s linear infinite;
+}
+
+.pallex-truck-flip {
+  display: block;
+  animation: truckRoundTripFlip 14s steps(1, end) infinite;
 }
 
 .pallex-truck-svg {
@@ -377,57 +382,87 @@ a {
   }
 }
 
-@keyframes truckDriveLeftToRight {
+@keyframes truckRoundTripMove {
   0% {
-    transform: translateX(26px);
+    transform: translateX(32px);
   }
-  14% {
-    transform: translateX(36px);
+  12% {
+    transform: translateX(40px);
   }
-  82% {
+  44% {
     transform: translateX(calc(100vw - 215px));
   }
+  54% {
+    transform: translateX(calc(100vw - 208px));
+  }
+  88% {
+    transform: translateX(36px);
+  }
   100% {
-    transform: translateX(calc(100vw - 205px));
+    transform: translateX(32px);
   }
 }
 
-@keyframes loadPalletLeft {
+@keyframes truckRoundTripFlip {
+  0% {
+    transform: scaleX(1);
+  }
+  54.5% {
+    transform: scaleX(-1);
+  }
+  92% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes loadPalletRoundTrip {
   0% {
     opacity: 1;
     transform: translate(0, 0) scale(1);
   }
-  10% {
+  7% {
     opacity: 1;
-    transform: translate(24px, -6px) scale(0.95);
+    transform: translate(22px, -6px) scale(0.95);
   }
-  15% {
+  11%, 88% {
     opacity: 0;
-    transform: translate(38px, -10px) scale(0.7);
+    transform: translate(34px, -9px) scale(0.7);
+  }
+  94% {
+    opacity: 1;
+    transform: translate(12px, -3px) scale(0.92);
   }
   100% {
-    opacity: 0;
-    transform: translate(38px, -10px) scale(0.7);
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
   }
 }
 
-@keyframes unloadPalletRight {
-  0%, 81% {
+@keyframes unloadPalletRoundTrip {
+  0%, 43% {
     opacity: 0;
-    transform: translate(-24px, -8px) scale(0.75);
+    transform: translate(-22px, -8px) scale(0.75);
   }
-  85% {
+  47% {
     opacity: 1;
     transform: translate(-8px, -4px) scale(0.95);
   }
-  94%, 100% {
+  53% {
     opacity: 1;
     transform: translate(0, 0) scale(1);
+  }
+  56%, 100% {
+    opacity: 0;
+    transform: translate(-18px, -6px) scale(0.8);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .pallex-truck-runner,
+  .pallex-truck-flip,
   .truck-wheel,
   .pallet-load-1,
   .pallet-load-2,
